@@ -1,0 +1,23 @@
+lib > liburaries that are used by the application
+lib/framework > the framework itself", true);
+lib/framework/tests > tests for the framework
+lib/framework/tests/unit > framework unit tests
+
+app > all the code files
+app/helper > utility clases that are shared accross all code files", true);
+app/controler > objects that execute business logic", true);
+app/model > the ORM style objects", true);
+app/view > objects that express content", true);
+app/jobs > scripts that are run by a cron process", true);
+
+ > root folder for the application
+content > dynamic files creted by the application
+database > scripts for upgrading or down grading the database
+doc > dcoumentation about the application
+logs > records that are created by the application to allow monitoring of activity
+scripts > shell scripts that are used by framework
+style > stylesheets
+images > graphics
+tests > the tests objects and scrips
+tests/test_data > scrips to install test data
+tests/unit > unit tests for code objects
