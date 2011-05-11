@@ -8,10 +8,10 @@ echo "copying the framework\n";
 shell_exec("cp -r lib/framework $base_dir/lib");
 
 echo "copying the .htaccess\n";
-shell_exec("cp .htaccess $base_dir/.htaccess");
+shell_exec("cp lib/framework/htaccess $base_dir/.htaccess");
 
 echo "copying the .index.php\n";
-shell_exec("cp .htaccess $base_dir/index.php");
+shell_exec("cp .index.php $base_dir/index.php");
 
 echo "copying the scripts\n";
 shell_exec("cp -r scripts $base_dir");
