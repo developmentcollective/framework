@@ -37,28 +37,27 @@ class Setting {
 	}
 
 	public static function get ($key){
-		if (Setting::$cache[$key]!=NULL){
-			return Setting::$cache[$key];
-		}
+            if (Setting::$cache[$key]!=NULL){
+                return Setting::$cache[$key];
+            }
 
-		$database = new database( _DB_SERVER, _DB_USER, _DB_PASS, _DB_NAME, '');
-		$sql = "SELECT value FROM setting WHERE name='$key'";
-		$database->setQuery ( $sql );
-
+            $database = new database( _DB_SERVER, _DB_USER, _DB_PASS, _DB_NAME, '');
+            $sql = "SELECT value FROM setting WHERE name='$key'";
+            $database->setQuery ( $sql );
 		
-		if ($database->loadObject ( $row )) {
-			Setting::$cache[$key] = $row->value;
-			return Setting::$cache[$key];
-		}
-		else{
-			$msg = $database->getErrorMsg() . "_" . $database->getErrorNum();
-			$match = ereg("setting.*doesn.*exist", $msg);
-			
-			if ($match){
-				Setting::add_table();
-			}
-			return NULL;
-		}
+            if ($database->loadObject ( $row )) {
+                Setting::$cache[$key] = $row->value;
+                return Setting::$cache[$key];
+            }
+            else{
+                $msg = $database->getErrorMsg() . "_" . $database->getErrorNum();
+                $match = ereg("setting.*doesn.*exist", $msg);
+
+                if ($match){
+                    Setting::add_table();
+                }
+                return NULL;
+            }
 	}		
 
 	private static function add_table(){

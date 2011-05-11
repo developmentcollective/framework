@@ -1,10 +1,12 @@
 <?php
+//error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
+
 require_once ( dirname(__FILE__) . "/../../config.php");
 require_once ( dirname(__FILE__) . "/Location.php");
 
-define ("_DEFAULT_TIMEOUT",             60); //Session timeout minutes
+define ("_DEFAULT_TIMEOUT",             28800); //Session timeout minutes
 define ("_SESSION_NAME", 		APPLICATION_NAME);
-define ('_PRUNE_DEAD_SESSIONS',		1);	//dunno what this is for
 
 $format = "html";
 if($_REQUEST["format"]){
@@ -177,7 +179,7 @@ function get_result_set_for_model_object($class, $where_conditions =null, $order
 		$limit_to = "LIMIT " . $limit_to_condition;
 	}
 	$SQL = "SELECT " . get_field_list($class) . " FROM " . get_table_name($class). " $where $order_by $limit_to";
-	
+
 	$database=new database(_DB_SERVER, _DB_USER, _DB_PASS, _DB_NAME, '');
 	$row = null;
 	
@@ -217,7 +219,12 @@ function get_result_set_for_model_object($class, $where_conditions =null, $order
  * @param string $message the message to be displayed
  */
 function debug($message){
-	echo "<div class='debug_row'>\n\t$message\n</div>\n";
+    if (_RUNNING_CLI_MODE){
+        echo "$message\n";
+    }
+    else{
+        echo "<div class='debug_row'>\n\t$message\n</div>\n";
+    }
 }
 
 /**
@@ -396,5 +403,6 @@ function output_array_as_xml($obj, $root_node){
     }
     echo("</" . $root_node . ">");
 }
+
 
 ?>

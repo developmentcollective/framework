@@ -25,7 +25,6 @@ class Route {
     }
 
     private function get_pattern(){
-
         //the pattern can contain symbols prceded by a colon eg :city_name
         //replace symbols with their patterns, these will have been passed in the constructor
         if ($this->pattern == NULL)
@@ -39,10 +38,16 @@ class Route {
         return $p;
     }
 
+    public function get_route(){
+        $this->matches();
+        return $this->matches[0];
+    }
+
     public function matches(){
+        if($_SERVER["REQUEST_METHOD"]!=$this->method)
+            return false;
 
         $res = preg_match($this->get_pattern(), $_SERVER["REDIRECT_URL"], $this->matches);
-
         if($res == FALSE || $res==0)
             return FALSE;
         else

@@ -10,7 +10,7 @@ class FoundationControler {
         $this->params = $params;
 
         if ($this->action != NULL){
-            call_user_func_array(array($this, $this->action), $args);
+            call_user_func_array(array($this, $this->action), array());
         }
         else{
             header("HTTP/1.0 404 Not Found");

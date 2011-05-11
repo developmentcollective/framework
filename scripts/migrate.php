@@ -20,8 +20,12 @@ else{
 while ($schema_to_install<=DATABASE_SCHEMA_VERSION){
         echo "attempt to upgrade to schema version $schema_to_install\n";
 
-        $database->execute_db_install_step($schema_to_install);
-        echo  "success\n";
+        if ($database->execute_db_install_step($schema_to_install)){
+            echo  "successfully installed schema version $schema_to_install\n";
+        }
+        else {
+            echo  "[ERROR] failed to install schema version $schema_to_install\n";
+        }
 
         $schema_to_install++;
 }

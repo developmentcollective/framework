@@ -28,24 +28,24 @@ class FoundationModel {
         }
     }
 	
-	/**
-	 * Constructor for all the Model objects
-	 * It accepts an associative array of NVP's
-	 * It then matches these to model properties and populates the object.
-	 * 
-	 * @param $obj the assocative array of NVPs for the properties
-	 */
-	public function __construct($obj=NULL){
-		if ($obj!=NULL){
-			$properties = get_object_vars($this);
-			foreach($properties as $k=>$v){
-				if($obj[$k]!=NULL){
-					$this->$k = $obj[$k];
-				}
-			}
-		}
-		$this->_table_name = strtolower(get_class($this));
-	}
+    /**
+     * Constructor for all the Model objects
+     * It accepts an associative array of NVP's
+     * It then matches these to model properties and populates the object.
+     *
+     * @param $obj the assocative array of NVPs for the properties
+     */
+    public function __construct($obj=NULL){
+        if ($obj!=NULL){
+            $properties = get_object_vars($this);
+            foreach($properties as $k=>$v){
+                if($obj[$k]!=NULL){
+                    $this->$k = $obj[$k];
+                }
+            }
+        }
+        $this->_table_name = strtolower(get_class($this));
+    }
 	
 	
 	
@@ -94,7 +94,11 @@ class FoundationModel {
 				return false; 
 			}
 			elseif ($k == "greater_than" && strlen($value) <= $v){
-				$this->_validate_errors[$thing_to_vaidate] = $thing_to_vaidate . " must be longer than " . $v . " characters";
+                                $this->_validate_errors[$thing_to_vaidate] = $thing_to_vaidate . " must be longer than " . $v . " characters";
+				return false;
+			}
+			elseif ($k == "greater_than_or_equal_to" && strlen($value) < $v){
+                                $this->_validate_errors[$thing_to_vaidate] = $thing_to_vaidate . " must be longer than " . $v . " characters";
 				return false;
 			}
 		}
@@ -149,15 +153,17 @@ class FoundationModel {
 	 * @param  $message the message to display if it is not
 	 */
 	public function validate_uniqueness_of ($thing_to_vaidate, $message){
-		
-		$properties = get_object_vars($this);
+
+                $properties = get_object_vars($this);
 		$value = $properties[$thing_to_vaidate];
 		
 		$database=new Database();
 		$row = null;
+
+                $value = str_replace("'", "\'", $value);
 		
 		$SQL = "SELECT id FROM " . $this->_table_name . " WHERE " . $thing_to_vaidate . "='" . $value . "' AND id != '" . $this->id . "' LIMIT 1";
-
+                
 		$database->setQuery ( $SQL);
 		if (!$database->query()){
 			handle_error("unexpected SQL error", E_USER_ERROR);       			
@@ -219,10 +225,9 @@ class FoundationModel {
 	 * @return boolean status of the call.
 	 */
 	public function save(){	
-		
-		$ret = false;
+                $ret = false;
 		if (method_exists($this, "validate") && !$this->validate()){
-       		return false; 
+                    return false;
 		}
 
 		$database=new Database();

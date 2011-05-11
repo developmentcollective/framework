@@ -93,20 +93,20 @@ class User extends FoundationModel {
 
 		//username
  		$ret &= $this->validate_length_of( "username", array("less_than" => User::USERNAME_MAX_LENGTH) );
- 		$ret &= $this->validate_length_of( "username", array("greater_than" => User::USERNAME_MIN_LENGTH) );
+ 		$ret &= $this->validate_length_of( "username", array("greater_than_or_equal_to" => User::USERNAME_MIN_LENGTH) );
 	 	$ret &= $this->validate_pattern( "username","/^[A-Z0-9_]*$/i","user name must only contain letters and numbers");
  		$ret &= $this->validate_uniqueness_of( "username", "User name already taken");
 		
 		//email
 		$ret &= $this->validate_length_of( "email", array("less_than" => User::EMAIL_MAX_LENGTH) );
-		$ret &= $this->validate_length_of( "email", array("greater_than" => User::EMAIL_MIN_LENGTH) );
+		$ret &= $this->validate_length_of( "email", array("greater_than_or_equal_to" => User::EMAIL_MIN_LENGTH) );
 		$ret &= $this->validate_pattern( "email","/^[A-Z0-9._%-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i","Must be a valid email address");		
 		$ret &= $this->validate_same( "email","confirmemail",$this->get_confirmemail(),"Email addresses do not match");		
 		$ret &= $this->validate_uniqueness_of( "email", "Email already taken");
 		
 		//password
 		$ret &= $this->validate_length_of( "password", array("less_than" => User::PASSWORD_MAX_LENGTH) );
-		$ret &= $this->validate_length_of( "password", array("greater_than" => User::PASSWORD_MIN_LENGTH) );
+		$ret &= $this->validate_length_of( "password", array("greater_than_or_equal_to" => User::PASSWORD_MIN_LENGTH) );
 		
 		return $ret;
 	}

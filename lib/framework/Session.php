@@ -258,7 +258,7 @@ class Session {
 
 		$session_id = Session::$session_id;
 		
-		$database = new database( _DB_SERVER, _DB_USER, _DB_PASS, _DB_NAME, '');
+		$database = new Database();
 		$sql = "DELETE FROM session_data WHERE data_key='$key' AND session_id='$session_id'";
 		$database->setQuery ( $sql );
 
@@ -266,7 +266,7 @@ class Session {
 	}		
 	
 	public static function kill_all_sessions(){
-		$database = new database( _DB_SERVER, _DB_USER, _DB_PASS, _DB_NAME, '');
+		$database = new Database( );
 		$sql = "DELETE FROM session; DELETE FROM session_data;";
 		$database->setQuery ( $sql );
 		return $database->query_batch();

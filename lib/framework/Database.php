@@ -72,16 +72,7 @@ class Database {
 	* Get a database escaped string
 	* @return string
 	*/
-	function getEscaped( $text ) {
-		//$value = $text;
-		//magic quotes has been depricated - so Ive removed it
-		//TODO: tidy this up and refactor away this function 
-		/*
-        if (get_magic_quotes_gpc())
-        {          
-        	$value = stripslashes($text);
-                }
-        */
+	public function getEscaped( $text ) {
 
 		try {
 			$value = mysql_real_escape_string( $text );
@@ -183,39 +174,41 @@ class Database {
 	* @return the error state
 	*/
 	function query_batch( $abort_on_error=true, $p_transaction_safe = false) {
-		$this->_errorNum = 0;
-		$this->_errorMsg = '';
-		if ($p_transaction_safe) {
-			$si = mysql_get_server_info();
-			preg_match_all( "/(\d+)\.(\d+)\.(\d+)/i", $si, $m );
-			if ($m[1] >= 4) {
-				$this->_sql = 'START TRANSACTION;' . $this->_sql . '; COMMIT;';
-			} else if ($m[2] >= 23 && $m[3] >= 19) {
-				$this->_sql = 'BEGIN WORK;' . $this->_sql . '; COMMIT;';
-			} else if ($m[2] >= 23 && $m[3] >= 17) {
-				$this->_sql = 'BEGIN;' . $this->_sql . '; COMMIT;';
-			}
-		}
-		$query_split = preg_split ("/[;]+/", $this->_sql);
-		$error = 0;
-		$counter = 0;
-		foreach ($query_split as $command_line) {
-			$counter++;
-			$command_line = trim( $command_line );
-			if ($command_line != '') {
-				$this->_cursor = mysql_query( $command_line, $this->_resource );
-				if (!$this->_cursor) {
-					$error = 1; 
-					$this->_errorNum .= mysql_errno( $this->_resource ) . ' ';
-					$this->_errorMsg .= mysql_error( $this->_resource )." SQL=$command_line <br />";
-					if ($abort_on_error) {
-						handle_error($this->getPrettyErrorMessage());
-						return $this->_cursor;
-					}
-				}
-			}
-		}
-		return $error ? false : true;
+            $this->_errorNum = 0;
+            $this->_errorMsg = '';
+            if ($p_transaction_safe) {
+                    $si = mysql_get_server_info();
+                    preg_match_all( "/(\d+)\.(\d+)\.(\d+)/i", $si, $m );
+                    if ($m[1] >= 4) {
+                            $this->_sql = 'START TRANSACTION;' . $this->_sql . '; COMMIT;';
+                    } else if ($m[2] >= 23 && $m[3] >= 19) {
+                            $this->_sql = 'BEGIN WORK;' . $this->_sql . '; COMMIT;';
+                    } else if ($m[2] >= 23 && $m[3] >= 17) {
+                            $this->_sql = 'BEGIN;' . $this->_sql . '; COMMIT;';
+                    }
+            }
+
+            $query_split = preg_split ("/[;]+/", $this->_sql);
+            $error = 0;
+            $counter = 0;
+            foreach ($query_split as $command_line) {
+                $counter++;
+                $command_line = trim( $command_line );
+                if ($command_line != '') {
+                        $this->_cursor = mysql_query( $command_line, $this->_resource );
+                        if (!$this->_cursor) {
+                                $error = 1;
+                                $this->_errorNum .= mysql_errno( $this->_resource ) . ' ';
+                                $this->_errorMsg .= mysql_error( $this->_resource )." SQL=$command_line <br />";
+
+                                if ($abort_on_error) {
+                                        handle_error($this->getPrettyErrorMessage());
+                                        return $this->_cursor;
+                                }
+                        }
+                }
+            }
+            return $error ? false : true;
 	}
 
 	/**
@@ -565,7 +558,6 @@ class Database {
 	 * @return boolean the success of the opetation
 	 */
 	public function execute_db_install_step($schema_to_install){
-            //dirname(__FILE__) . "/../../config.php"
             $file_name = dirname(__FILE__) . "/../../database/upgrade_to_$schema_to_install.sql";
             return $this->execute_db_file($file_name, $schema_to_install);
 	}
@@ -583,15 +575,19 @@ class Database {
 	 * @return Boolean the success status
 	 */
 	private function execute_db_file($file_name, $new_version){
-		$file = fopen( $file_name,"r+");
-		$size = filesize($file_name);
+                if (!file_exists($file_name)){
+                   return false;
+                }
+
+                $file = fopen( $file_name,"r+");
+                $size = filesize($file_name);
 		if ($size == 0){
-    		Setting::put("db_schema_version", $new_version );
-			return true;
+        	    Setting::put("db_schema_version", $new_version );
+                    return true;
 		}
 		$SQL = fread($file,$size);
 		$this->setQuery ( $SQL );
-                if ($this->query_batch(true)){
+                if ($this->query_batch()){
                     Setting::put("db_schema_version", $new_version );
                     return true;
                 }
