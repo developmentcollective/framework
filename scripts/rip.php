@@ -2,7 +2,7 @@
 //assume that you are in the root directory
 require_once ( './lib/framework/cli_common.php');
 
-echo "Starting ripping script";
+echo "Starting ripping script\n";
 
 $base_dir = "content/framework";
 
@@ -26,7 +26,7 @@ echo "copying the .index.php\n";
 shell_exec("cp .htaccess $base_dir/index.php");
 
 echo "copying the scripts\n";
-shell_exec("cp -r scripts $base_dir/scripts");
+shell_exec("cp -r scripts $base_dir");
 
 echo "copying the README\n";
 shell_exec("cp lib/framework/README $base_dir/README");
@@ -38,6 +38,6 @@ echo "remove any svn files\n";
 shell_exec("find $base_dir -name \".svn\"  -exec rm -rf {} \;");
 
 
-echo "ripping complete\n";
-
+echo "ripping script complete\n";
+echo "\n";
 ?>

@@ -58,3 +58,7 @@ images > graphics
 tests > the tests objects and scrips
 tests/test_data > scrips to install test data
 tests/unit > unit tests for code objects
+
+TODO
+=======
+remove the dependency on the database when running the rip script
