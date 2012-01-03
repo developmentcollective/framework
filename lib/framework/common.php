@@ -42,20 +42,16 @@ $locations[] = new Location("tests/test_data");
 $locations[] = new Location("tests/unit");
 $GLOBALS["locations"] = $locations;
 
-Session::start();
 
 function getParam(&$arr, $name, $def = null) {
-	if (isset ( $arr [$name] )) {
-		return $arr [$name];
-	} else {
-		return $def;
-	}
+    if (isset ( $arr [$name] )) {
+            return $arr [$name];
+    } else {
+            return $def;
+    }
 }
 
-/**
-* Standard autoload function pointed to the model 
-*/
-function __autoload($class_name) {
+function autoload_framework_classes ($class_name){
     $file_name =  $class_name . '.php';
     $start_path = dirname(__FILE__) . "/../..";
 
@@ -73,7 +69,33 @@ function __autoload($class_name) {
 
     handle_error("The requested library, <b>$class_name</b>, could not be found.<br/>\n\t\tlooking in <em>". $_SERVER["DOCUMENT_ROOT"] ."</em>");
 }
+ spl_autoload_register('autoload_framework_classes');
 
+ Session::start();
+
+/**
+* Standard autoload function pointed to the model 
+*/
+/*function __autoload($class_name) {
+
+    $file_name =  $class_name . '.php';
+    $start_path = dirname(__FILE__) . "/../..";
+
+    global $GLOBALS;
+
+    foreach ($GLOBALS["locations"] as $loc){
+        if ($loc->autoload){
+            $file = $start_path . "/" . $loc->path . "/" . $file_name;
+            if(file_exists($file)){
+                require_once ( $file );
+                return true;
+            }
+        }
+    }
+
+    handle_error("The requested library, <b>$class_name</b>, could not be found.<br/>\n\t\tlooking in <em>". $_SERVER["DOCUMENT_ROOT"] ."</em>");
+}
+*/
 
 /**
  * returns the list of filedls for the passed in object type based on the properties 

@@ -8,7 +8,7 @@ $route = null;
 
 foreach ($routes as $name => $r){
     $selected_route = $name;
-    if ($r->matches()){
+    if ($r->match()){
         $route = $r;
         break;
     }

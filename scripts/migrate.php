@@ -2,7 +2,7 @@
 //assume that you are in the root directory
 require_once ( './lib/framework/cli_common.php');
 
-echo "Starting upgrade procedure";
+echo "Starting upgrade procedure\n";
 echo "target schema version=". DATABASE_SCHEMA_VERSION . "\n";
 
 $database=new Database();

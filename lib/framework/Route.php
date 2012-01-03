@@ -39,11 +39,11 @@ class Route {
     }
 
     public function get_route(){
-        $this->matches();
+        $this->match();
         return $this->matches[0];
     }
 
-    public function matches(){
+    public function match(){
         if($_SERVER["REQUEST_METHOD"]!=$this->method)
             return false;
 
