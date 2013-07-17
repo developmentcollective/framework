@@ -1,0 +1,15 @@
+<VirtualHost yournextapplication.local >
+        #Basic setup
+        ServerName yournextapplication.local
+        DocumentRoot /var/www/yournextapplication
+
+        <Directory /var/www/yournextapplication >
+                Order Deny,Allow
+                Allow from all
+                # Don't show indexes for directories
+                Options -Indexes
+        </Directory>
+</VirtualHost>
+
+
+
