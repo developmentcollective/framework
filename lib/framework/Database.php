@@ -34,7 +34,7 @@ class Database {
         }
 
         if (!($this->_resource = @mysql_connect( DATABASE_SERVER, DATABASE_USER, DATABASE_PASSWORD ))) {
-            die( 'FATAL ERROR: Connection to database server failed.' );
+            die( 'FATAL ERROR: Connection to database server failed: '.mysql_error() );
         }
 
         if (!mysql_select_db(DATABASE_NAME)) {
