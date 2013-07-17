@@ -25,6 +25,9 @@ NameVirtualHost 127.0.0.1
     ServerName application_name.tld
 </VirtualHost>
 
+copy the config_sample.php to config.php and edit the file with the settings for 
+you application.
+
 Installing Jobs
 ==================
 The framework supports programatic jobs. Each class in the app/jobs folder is a descriete task.
