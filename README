@@ -8,7 +8,8 @@ This product is developed with the following software stack
 - mod_rewrite
 
 Install the application into your folder and create a virtual host
-Here are the apache directives for the httpd.conf file
+Here are the apache directives for the httpd.conf file or use the .local file
+as a template for your sites enabled folder.
 
 NameVirtualHost 127.0.0.1
 <Directory "/path_to_the_code">
@@ -62,3 +63,4 @@ tests/unit > unit tests for code objects
 TODO
 =======
 remove the dependency on the database when running the rip script
+add utilities classes to speed load times (put the string handeling stuff into them)

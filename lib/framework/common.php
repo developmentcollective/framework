@@ -426,5 +426,12 @@ function output_array_as_xml($obj, $root_node){
     echo("</" . $root_node . ">");
 }
 
+function base64_png_dataURI_decode($data){
+
+  //The data should start "data:image/png;base64,"
+  $d = str_replace("data:image/png;base64,", "", $data);
+  $d = str_replace(' ','+',$d);
+  return base64_decode($d);
+}
 
 ?>
