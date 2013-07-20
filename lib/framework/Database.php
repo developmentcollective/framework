@@ -1,8 +1,4 @@
 <?php
-
-require_once ( dirname(__FILE__) . "/../../config.php");
-require_once ( 'common.php');
-
 /**
  * An instance of this class represents the database.
  * The class is used by the framework to marshal all database activity and to 
@@ -25,6 +21,9 @@ require_once ( 'common.php');
  * @package framework
  * @author simondelliott <simon@simondelliott.com>
  */
+require_once ( dirname(__FILE__) . "/../../config.php");
+require_once ( 'common.php');
+
 class Database {
 
     const ERROR_NUM_TABLE_DOES_NOT_EXIST = 1146;

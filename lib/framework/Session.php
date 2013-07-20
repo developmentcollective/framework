@@ -4,6 +4,7 @@
  * A representation of a session,
  * Stores session data in the database.
  * 
+ * @todo Add a code block example to this javadoc
  * @author developmentcollective
  * @version @@@version
  * @package fmm 

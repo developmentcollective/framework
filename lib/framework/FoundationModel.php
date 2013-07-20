@@ -1,11 +1,24 @@
 <?php
-
+/**
+ * All model objects created by the developer should extend this class
+ * It provides utlity functions such as save() and validate()
+ * 
+ * @package framework
+ * @author simondelliott <simon@simondelliott.com>
+ * @version @@@version
+ */
 class FoundationModel {
 	
-    /** a cache of properties that have been initalized by __get magic function */
+    /** 
+     * a cache of properties that have been initalized by __get magic function 
+     * @var Object a cache for the properties for this model object 
+     */
     private $property_cache = null;
 
-    /** the table associated with the model object */
+    /** 
+     * the table associated with the model object 
+     * @var type 
+     */
     private $_table_name = null;
 
     /** an array of the errors from the last time that the object was validated - only one entry per field */

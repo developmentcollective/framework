@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @package framework
+ * @author simondelliott <simon@simondelliott.com>
+ * @version @@@version
+ */
 class Password {
 
 	public function __construct($model_object, $field, $max_length, $size, $validation_error ){

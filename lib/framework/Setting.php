@@ -1,7 +1,5 @@
 <?php
-
 /**
- * 
  * @package framework
  * @author simondelliott <simon@simondelliott.com>
  * @version @@@version

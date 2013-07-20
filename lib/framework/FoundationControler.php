@@ -1,8 +1,20 @@
 <?php
-
+/**
+ * Controler objects extend the FoundationControler
+ * Framework code and utiloty functions for controlers go in here.
+ * 
+ * @package framework
+ * @author simondelliott <simon@simondelliott.com>
+ * @version @@@version
+ */
 class FoundationControler {
-	
+
+    /**
+     * The parameters that are specified on the URL from the route object
+     * @var Object 
+     */
     public $params = array();
+    
     private $action = "";
 
     public function __construct( $act, $params = NULL ) {

@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * All job objects (i.e. things that are called by cron) 
+ * created by the developer should extend this class
+ * 
+ * @package framework
+ * @author simondelliott <simon@simondelliott.com>
+ * @version @@@version
+ */
 class FoundationJob {
 	
     public $period = 86400; /* one day in seconds */

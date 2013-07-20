@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * @todo should this class be deprecated ?
+ * @package framework
+ * @author simondelliott <simon@simondelliott.com>
+ * @version @@@version
+ */
 class BaseModel extends FoundationModel {
 
     public $id;

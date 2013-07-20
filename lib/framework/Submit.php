@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @package framework
+ * @author simondelliott <simon@simondelliott.com>
+ * @version @@@version
+ */
 class Submit {
 
     public function __construct($name, $value){

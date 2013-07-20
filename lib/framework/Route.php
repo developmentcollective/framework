@@ -1,4 +1,20 @@
 <?php
+/**
+ * Represents a restful route is instianciated by a developer in teh routes file
+ * 
+ * <code>
+ *  $routes["cab_show"]   
+ *      = new Route(array(
+ *          "controler"=>"cab", 
+ *          "action"=>"show",   
+ *          "pattern"=>"/city\/:city_name\/cabs\/:reg/", 
+ *          "city_name" => "[\w ]+", 
+ *          "reg" => "[\w ]+"));
+ * </code>
+ * @package framework
+ * @author simondelliott <simon@simondelliott.com>
+ * @version @@@version
+ */
 
 class Route {
     public $method = "GET";

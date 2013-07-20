@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * @todo should this class be deprecated ?
+ * @package framework
+ * @author simondelliott <simon@simondelliott.com>
+ * @version @@@version
+ */
 class BaseModelTest extends PHPUnit_Framework_TestCase {
 
     private $_fixture_valid_BaseModel;

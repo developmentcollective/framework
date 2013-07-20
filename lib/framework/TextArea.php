@@ -1,6 +1,11 @@
 <?php
 require_once ( $_SERVER["DOCUMENT_ROOT"] . '/common.inc.php');
 
+/**
+ * @package framework
+ * @author simondelliott <simon@simondelliott.com>
+ * @version @@@version
+ */
 class TextArea {
 
 	public function __construct($model_object, $field, $rows, $value, $cols, $validation_error ){
