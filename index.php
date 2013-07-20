@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * This file is the front controler
+ * All the requests that hit the web site are routed to this file
+ * by the rewrite rules in the .htaccess file. This code then unpacks the 
+ * request and sees if it matches any of the routes that the developer
+ * has specified in the routes file. If it does the action specified 
+ * in the route is executed.
+ */
 require_once ( 'lib/framework/common.php');
 require_once ( 'routes.php');
 
@@ -12,9 +19,8 @@ foreach ($routes as $name => $r){
         $route = $r;
         break;
     }
-    if ($name == "root"){
+    if ($name == "root")
         $root_route = $r;
-    }
 }
 
 if ($route ==NULL)

@@ -1,4 +1,9 @@
 <?php
+/**
+ * This file contains global code that is used to support the framework.
+ * It also contains initalization code
+ */
+// uncomment this line to turn on development error reporting
 //error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
@@ -9,13 +14,11 @@ define ("_DEFAULT_TIMEOUT",             28800); //Session timeout minutes
 define ("_SESSION_NAME", 		APPLICATION_NAME);
 
 $format = "html";
-if($_REQUEST["format"]){
+if($_REQUEST["format"])
     $format = $_REQUEST["format"];
-}
 define ("FORMAT", $format);
 
-
-$routes = array();
+$routes = array(); //initalize the routes array, see index.html to understand how this works
 
 $locations = array();
 $locations[] = new Location("lib");
@@ -43,7 +46,14 @@ $locations[] = new Location("tests/test_data");
 $locations[] = new Location("tests/unit");
 $GLOBALS["locations"] = $locations;
 
-
+/**
+ * Gets the parameter of an object 
+ * @todo Depricate this if unused
+ * @param Objeect $arr the object to interrogate
+ * @param String $name paramer name
+ * @param String $def default value
+ * @return String the value of the parameter
+ */
 function getParam(&$arr, $name, $def = null) {
     if (isset ( $arr [$name] )) {
             return $arr [$name];
@@ -52,6 +62,15 @@ function getParam(&$arr, $name, $def = null) {
     }
 }
 
+/**
+ * Automatically loads classes that are not found in the currently loaded set 
+ * of objects. Uses the locations specified in this file.
+ * 
+ * @todo Check how this function profiles, I have a belief that it may be slow
+ * @global array $GLOBALS
+ * @param String $class_name the class that cannot be found
+ * @return boolean the found status of the class
+ */
 function autoload_framework_classes ($class_name){
     $file_name =  $class_name . '.php';
     $start_path = dirname(__FILE__) . "/../..";
@@ -70,33 +89,9 @@ function autoload_framework_classes ($class_name){
 
     handle_error("The requested library, <b>$class_name</b>, could not be found.<br/>\n\t\tlooking in <em>". $_SERVER["DOCUMENT_ROOT"] ."</em>");
 }
- spl_autoload_register('autoload_framework_classes');
+spl_autoload_register('autoload_framework_classes');
 
- Session::start();
-
-/**
-* Standard autoload function pointed to the model 
-*/
-/*function __autoload($class_name) {
-
-    $file_name =  $class_name . '.php';
-    $start_path = dirname(__FILE__) . "/../..";
-
-    global $GLOBALS;
-
-    foreach ($GLOBALS["locations"] as $loc){
-        if ($loc->autoload){
-            $file = $start_path . "/" . $loc->path . "/" . $file_name;
-            if(file_exists($file)){
-                require_once ( $file );
-                return true;
-            }
-        }
-    }
-
-    handle_error("The requested library, <b>$class_name</b>, could not be found.<br/>\n\t\tlooking in <em>". $_SERVER["DOCUMENT_ROOT"] ."</em>");
-}
-*/
+Session::start(); //Initalises the session object.
 
 /**
  * returns the list of filedls for the passed in object type based on the properties 
@@ -105,25 +100,21 @@ function autoload_framework_classes ($class_name){
  * @return string the list of fields
  */
 function get_field_list($class){
-	$ret = "";
-	$properties = get_class_vars($class);
-	$table_name = strtolower($class);
-	
-	foreach ($properties as $key => $value){
-		if ($key[0] == '_') { // internal field
-			continue;
-		}
+    $ret = "";
+    $properties = get_class_vars($class);
+    $table_name = strtolower($class);
 
-		if(strlen($ret)>0){
-			$ret .= ",";
-		}
-		//$ret .= "$class." . $key . " '$key'";
-		//$ret .= "$class." . $key ;
-		
-		$ret .= "$table_name." . $key ;
-		
-	}
-	return $ret;
+    foreach ($properties as $key => $value){
+        if ($key[0] == '_') { // internal field
+                continue;
+        }
+
+        if(strlen($ret)>0){
+            $ret .= ",";
+        }
+        $ret .= "$table_name." . $key ;
+    }
+    return $ret;
 }
 
 /**
@@ -259,19 +250,19 @@ function debug($message){
  */
 function model_object_collection_to_JSON ($collection_name, $model_collection ){
 	
-	$json = "{ \"$collection_name\":[\n";
-	foreach ($model_collection as $model_obj){
-		$json .= "\t" . $model_obj->toJSON();
-		$json .= ", \n";
-	}
-	if(strlen($json)>1){
-		$json = substr($json, 0,strlen($json) -3); //remove the comma and the space 
-		$json .= "\n";
-		
-	}
-	$json .= "]}";
-	
-	return $json;
+    $json = "{ \"$collection_name\":[\n";
+    foreach ($model_collection as $model_obj){
+            $json .= "\t" . $model_obj->toJSON();
+            $json .= ", \n";
+    }
+    if(strlen($json)>1){
+            $json = substr($json, 0,strlen($json) -3); //remove the comma and the space 
+            $json .= "\n";
+
+    }
+    $json .= "]}";
+
+    return $json;
 }	
 
 /**
@@ -282,14 +273,13 @@ function model_object_collection_to_JSON ($collection_name, $model_collection ){
  * @return String
  */
 function strip_json_final_comma($json_to_strip){
-	$ret = "";
-	if(strlen($json_to_strip)>1){
-		
-		$ret = substr($json_to_strip, 0,strlen($json_to_strip) -3); //remove the comma and the space 
-		$ret .= "\n";
-	}
-	$ret .= "}";
-	return $ret;
+    $ret = "";
+    if(strlen($json_to_strip)>1){
+        $ret = substr($json_to_strip, 0,strlen($json_to_strip) -3); //remove the comma and the space 
+        $ret .= "\n";
+    }
+    $ret .= "}";
+    return $ret;
 }
 
 /**
@@ -373,19 +363,24 @@ function number_to_rank($rank){
 	}
 }
 
+/**
+ * converts a numberic value to a USD format string with thousands seperator
+ * 
+ * @param Number $num the numeric value to be converted
+ * @return String the thounds seperated version of the number with a USD symbol
+ */
 function number_to_currency_string($num){
-	$b = $num;
-	$o = "";
-	
-	
-	while(strlen($b) > 3){
-		//take right 3 characters
-		$o = "," . substr($b,strlen($b)-3,strlen($b)) . $o;
-		$b = substr($b,0,strlen($b)-3);
-	}
-	
-	$o = "$" . $b . $o;
-	return $o;	
+    $b = $num;
+    $o = "";
+
+    while(strlen($b) > 3){
+            //take right 3 characters
+            $o = "," . substr($b,strlen($b)-3,strlen($b)) . $o;
+            $b = substr($b,0,strlen($b)-3);
+    }
+
+    $o = "$" . $b . $o;
+    return $o;	
 }
 
 /**
@@ -408,15 +403,31 @@ function get_start_rank_from_page($page, $number_of_rows_per_page){
 	return $start_rank;
 }
 
+/**
+ * Truncates a string to a set number of characters
+ * 
+ * @param string the string object to be truncated
+ * @param number the number of characters to truncate it to
+ * @return string the truncated string
+ */
 function truncate($string, $limit) {
-	if(strlen($string) <= $limit) return $string; 
+    if(strlen($string) <= $limit) return $string; 
 }
 
+/**
+ * sets the header of the response to xml
+ */
 function set_xml_header(){
     header ("Content-Type:text/xml");
     echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
 }
 
+/**
+ * Turns an array into an xml string, output goes to std out
+ * 
+ * @param Object $obj the object to be converted to xml
+ * @param String $root_node the name you want as the root node
+ */
 function output_array_as_xml($obj, $root_node){
     set_xml_header();
     echo("<$root_node>");
@@ -427,8 +438,12 @@ function output_array_as_xml($obj, $root_node){
     echo("</" . $root_node . ">");
 }
 
+/**
+ * decode png data to string 
+ * @param String $data the B64 data to be decoded
+ * @return String the decoded string  
+ */
 function base64_png_dataURI_decode($data){
-
   //The data should start "data:image/png;base64,"
   $d = str_replace("data:image/png;base64,", "", $data);
   $d = str_replace(' ','+',$d);

@@ -67,3 +67,4 @@ TODO
 =======
 remove the dependency on the database when running the rip script
 add utilities classes to speed load times (put the string handeling stuff into them)
+Prune the common file
