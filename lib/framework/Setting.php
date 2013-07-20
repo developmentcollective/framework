@@ -2,9 +2,9 @@
 
 /**
  * 
- * @author developmentcollective
+ * @package framework
+ * @author simondelliott <simon@simondelliott.com>
  * @version @@@version
- * @package fmm 
  */
 class Setting {
 	

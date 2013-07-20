@@ -23,12 +23,12 @@ foreach ($routes as $name => $r){
         $root_route = $r;
 }
 
+//no route found
 if ($route ==NULL)
-    $route = $root_route; //note could still be null
+    $route = $root_route; //note that $route could still be null
 
-if ($route ==NULL){
-    handle_error("No route to follow");
-}
+if ($route ==NULL)
+    handle_error("It looks like the requested URL has not matched any routes and the developer has not set a root (default) route.");
 
 $GLOBALS["route"] = $route;
 $controler = $route->get_controler_class();

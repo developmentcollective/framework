@@ -3,6 +3,28 @@
 require_once ( dirname(__FILE__) . "/../../config.php");
 require_once ( 'common.php');
 
+/**
+ * An instance of this class represents the database.
+ * The class is used by the framework to marshal all database activity and to 
+ * perform some interesting tasks such as upgrading and down grading the 
+ * database.
+ * 
+ * <code>
+ *  $database = new database( "localhost", "root", "your_password", "your_database", '');
+ *  $database->setQuery ( "select * from invoices where id=1" );
+ *  if (!$database->query ()){
+ *      echo $database->getErrorNum() . " ". $database->getErrorMsg() ;
+ *      exit();
+ *  }
+ *  $database->loadObject ( $row )) 
+ *  echo $row[0];
+ * 
+ * </code>
+ * 
+ * @todo create a test for this example code and check it
+ * @package framework
+ * @author simondelliott <simon@simondelliott.com>
+ */
 class Database {
 
     const ERROR_NUM_TABLE_DOES_NOT_EXIST = 1146;
@@ -55,6 +77,10 @@ class Database {
         $this->_log = array();
     }
 
+    /**
+     * Sets the debug level for the reporting of errors
+     * @param Number $level the debug level 
+     */
     function debug($level) {
         $this->_debug = intval($level);
     }
